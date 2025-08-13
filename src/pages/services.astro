@@ -57,21 +57,22 @@ const caseStudyData = [
 ---
 
 <Layout metadata={metadata}>
-  <!-- Case Studies Hero Section -->
-  <section class="case-studies-hero px-4 py-16 sm:px-6 lg:px-8 lg:py-20 mx-auto max-w-7xl">
+  <div class='case-studies-container'>
     <div class='case-studies-header'>
-      <div class="header-content">
-        <span class='case-studies-header-creativity'>creativity</span>
-        <div class='case-studies-header-divider'>
-          <span class='with'>WITH</span>
-          <div class="circle-decoration"></div>
-        </div>
-        <div class='case-studies-header-purpose'>
-          <span>purpose</span>
-        </div>
+      <span class='case-studies-header-creativity'>creativity</span>
+      <div class='case-studies-header-divider'>
+        <span class='with'>WITH</span>
+        <img
+          src="/assets/circle.svg"
+          alt='circle'
+          style="margin-top: -75px; margin-left: -18px; margin-right: -135px; width: 454px;"
+        />
+      </div>
+      <div class='case-studies-header-purpose'>
+        <span>purpose</span>
       </div>
     </div>
-    
+
     <div class='case-studies-intro'>
       <span class='case-studies-intro-text'>
         Looking for my portfolio? You'll find here some shots of my most
@@ -79,7 +80,7 @@ const caseStudyData = [
         to, as well as a few words about my role and my inspirations.
       </span>
     </div>
-    
+
     <div class='case-studies-design-process'>
       <div class='case-studies-process-details'>
         <span class='case-studies-process-title'>My Design Process</span>
@@ -90,19 +91,16 @@ const caseStudyData = [
           product.
         </span>
       </div>
-      <a href='/design-process' class="design-process-link">
+      <a href='/designprocess' style="text-decoration: none;">
         <button class='case-studies-open-document-button'>
-          <span>Open Document</span>
-          <Icon name="tabler:arrow-right" class="arrow-icon" />
+          Open Document
+          <img src="/assets/caseStudiesModal/white-arrow.svg" alt='arrow' />
         </button>
       </a>
     </div>
-  </section>
 
-  <!-- Filter Section -->
-  <section class="filter-section px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl">
     <div class='case-studies-footer'>
-      <span class='case-studies-footer-text'>// Case Studies</span>
+      <span class='case-studies-footer-text'>// Casestudies</span>
       <div class='cs-chip-container-holder' id="chip-container">
         {csChipData.map((eachChip, idx) => (
           <button 
@@ -115,15 +113,9 @@ const caseStudyData = [
             <span class="chip-count">({eachChip.number})</span>
           </button>
         ))}
-        <button class="cs-chip active" data-filter="all">
-          <span class="chip-label">All Projects</span>
-        </button>
       </div>
     </div>
-  </section>
 
-  <!-- Case Studies Grid -->
-  <section class="case-studies-grid px-4 pb-16 sm:px-6 lg:px-8 lg:pb-20 mx-auto max-w-7xl">
     <div class='cs-card-container' id="case-studies-container">
       {caseStudyData.map((caseStudy) => (
         <article class="case-study-card" data-category={caseStudy.category}>
@@ -152,14 +144,12 @@ const caseStudyData = [
         </article>
       ))}
     </div>
-    
-    <!-- Empty State -->
-    <div id="empty-state" class="empty-state hidden">
-      <Icon name="tabler:folder-open" class="empty-icon" />
-      <h3>No projects found</h3>
-      <p>Try selecting a different filter or view all projects.</p>
-    </div>
-  </section>
+
+    <!-- Horizontal containers for smaller cards (if needed) -->
+    <!-- <div class='cs-horz-container'>
+      Additional small cards can go here
+    </div> -->
+  </div>
 
   <!-- Call to Action -->
   <CallToAction
@@ -184,37 +174,20 @@ const caseStudyData = [
   function initializeCaseStudiesFilter() {
     const chips = document.querySelectorAll('.cs-chip');
     const caseStudyCards = document.querySelectorAll('.case-study-card');
-    const container = document.getElementById('case-studies-container');
-    const emptyState = document.getElementById('empty-state');
     
     if (!chips.length || !caseStudyCards.length) return;
 
     function filterCaseStudies(filter: string) {
-      let visibleCount = 0;
-      
       caseStudyCards.forEach((card) => {
         const cardElement = card as HTMLElement;
         const category = cardElement.dataset.category;
         
-        if (filter === 'all' || category === filter) {
+        if (filter === 'all' || category === filter || filter === '') {
           cardElement.style.display = 'block';
-          cardElement.style.animation = 'fadeInUp 0.6s ease forwards';
-          visibleCount++;
         } else {
           cardElement.style.display = 'none';
         }
       });
-      
-      // Show/hide empty state
-      if (emptyState && container) {
-        if (visibleCount === 0) {
-          emptyState.classList.remove('hidden');
-          container.classList.add('hidden');
-        } else {
-          emptyState.classList.add('hidden');
-          container.classList.remove('hidden');
-        }
-      }
     }
 
     function setActiveChip(activeChip: Element) {
@@ -234,12 +207,8 @@ const caseStudyData = [
       });
     });
 
-    // Set initial state - show all
-    const allChip = document.querySelector('[data-filter="all"]');
-    if (allChip) {
-      setActiveChip(allChip);
-      filterCaseStudies('all');
-    }
+    // Initialize - show all cards
+    filterCaseStudies('all');
   }
 
   // Initialize on page load
@@ -250,190 +219,187 @@ const caseStudyData = [
 </script>
 
 <style>
-  /* Hero Section Styles */
-  .case-studies-hero {
-    text-align: center;
-    position: relative;
-  }
+  @import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Akshar:wght@500&display=swap');
 
-  .case-studies-header {
-    margin-bottom: 3rem;
-  }
-
-  .header-content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 2rem;
-  }
-
-  .case-studies-header-creativity {
-    font-size: clamp(2.5rem, 8vw, 6rem);
-    font-weight: 300;
-    color: var(--aw-color-text-default);
-    letter-spacing: -0.02em;
-  }
-
-  .case-studies-header-divider {
-    position: relative;
-    display: flex;
-    align-items: center;
-  }
-
-  .with {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--aw-color-text-muted);
-    margin: 0 1rem;
-  }
-
-  .circle-decoration {
-    width: 120px;
-    height: 120px;
-    border: 2px solid var(--aw-color-primary);
-    border-radius: 50%;
-    opacity: 0.3;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  .case-studies-header-purpose span {
-    font-size: clamp(2.5rem, 8vw, 6rem);
-    font-weight: 700;
-    background: linear-gradient(135deg, var(--aw-color-primary) 0%, #8b5cf6 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  .case-studies-container {
+    padding: 42px 31px 214px 30px;
   }
 
   .case-studies-intro {
-    max-width: 800px;
-    margin: 0 auto 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 38px;
+    padding-bottom: 20px;
   }
 
   .case-studies-intro-text {
-    font-size: 1.25rem;
-    line-height: 1.7;
-    color: var(--aw-color-text-muted);
+    color: #b8c1cc;
+    font-family: Inter;
+    font-size: 19.375px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 36px; /* 185.806% */
   }
 
   .case-studies-design-process {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 2rem;
-    background: var(--aw-color-bg-page);
-    border: 1px solid var(--aw-color-border);
-    border-radius: 16px;
-    gap: 2rem;
+    align-items: center;
+    border-top: 1px solid #14181f;
+    border-bottom: 1px solid #14181f;
+    margin-bottom: 22px;
   }
 
   .case-studies-process-details {
-    flex: 1;
-    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px 0px 20px 0px;
   }
 
   .case-studies-process-title {
-    display: block;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--aw-color-text-heading);
-    margin-bottom: 0.5rem;
+    color: #f8fafc;
+    font-family: Inter;
+    font-size: 30.5px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: 40px; /* 131.148% */
+    letter-spacing: -0.44px;
   }
 
   .case-studies-process-description {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: var(--aw-color-text-muted);
-  }
-
-  .design-process-link {
-    text-decoration: none;
+    color: #b8c1cc;
+    font-family: Inter;
+    font-size: 15.375px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 24px; /* 156.098% */
   }
 
   .case-studies-open-document-button {
+    width: 178.84px;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: #14191f;
+    color: #f8fafc;
+    font-family: Inter;
+    font-size: 17.438px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px; /* 137.634% */
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.875rem 1.5rem;
-    background: linear-gradient(135deg, var(--aw-color-primary) 0%, #8b5cf6 100%);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 1rem;
-    font-weight: 600;
+    gap: 8px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
-  }
-
-  .case-studies-open-document-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
-  }
-
-  .arrow-icon {
-    width: 20px;
-    height: 20px;
-  }
-
-  /* Filter Section */
-  .filter-section {
-    border-bottom: 1px solid var(--aw-color-border);
-    padding-bottom: 2rem;
   }
 
   .case-studies-footer {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 2rem;
-  }
-
-  .case-studies-footer-text {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--aw-color-text-muted);
-    font-family: 'Fira Code', monospace;
+    gap: 12px;
   }
 
   .cs-chip-container-holder {
     display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
+    gap: 10px;
   }
 
+  .cs-card-container {
+    margin-top: 50px;
+  }
+
+  .cs-horz-container {
+    display: flex;
+    gap: 16px;
+  }
+
+  .case-studies-header {
+    display: flex;
+    flex-direction: column;
+    max-width: 678px;
+  }
+
+  .case-studies-header-creativity {
+    color: #fff;
+    font-family: 'Akshar', sans-serif;
+    font-size: 78.291px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%; /* 78.291px */
+    letter-spacing: -0.899px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .case-studies-header-divider {
+    display: flex;
+    justify-content: end;
+  }
+
+  .case-studies-header-purpose {
+    color: #fff;
+    font-family: 'Akshar', sans-serif;
+    font-size: 78.291px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%; /* 78.291px */
+    letter-spacing: -0.899px;
+    text-transform: uppercase;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    margin-top: -150px;
+    margin-right: -80px;
+    margin-bottom: 58px;
+  }
+
+  .with {
+    color: var(--neon, #b2ff50);
+    font-family: 'Abhaya Libre', serif;
+    font-size: 17.985px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%; /* 17.985px */
+    letter-spacing: 0.18px;
+    text-transform: uppercase;
+  }
+
+  .case-studies-footer-text {
+    color: #b8c1cc;
+    font-family: 'Fira Code', monospace;
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  /* CS Chip Styles */
   .cs-chip {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    background: var(--aw-color-bg-page);
-    border: 2px solid var(--aw-color-border);
-    border-radius: 25px;
-    font-size: 0.875rem;
-    font-weight: 500;
+    gap: 4px;
+    padding: 8px 16px;
+    background: transparent;
+    border: 1px solid #b8c1cc;
+    border-radius: 20px;
+    color: #b8c1cc;
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 400;
     cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: none;
+    transition: all 0.2s ease;
   }
 
   .cs-chip:hover {
-    border-color: var(--aw-color-primary);
-    transform: translateY(-1px);
+    border-color: #b2ff50;
+    color: #b2ff50;
   }
 
   .cs-chip.active {
-    background: var(--aw-color-primary);
-    border-color: var(--aw-color-primary);
-    color: white;
+    background: #b2ff50;
+    border-color: #b2ff50;
+    color: #000;
   }
 
   .chip-label {
@@ -441,36 +407,14 @@ const caseStudyData = [
   }
 
   .chip-count {
-    font-size: 0.75rem;
-    opacity: 0.7;
+    color: inherit;
+    opacity: 0.8;
   }
 
-  /* Case Studies Grid */
-  .case-studies-grid {
-    padding-top: 3rem;
-  }
-
-  .cs-card-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-    gap: 2rem;
-    margin-bottom: 3rem;
-  }
-
+  /* Case Study Card Styles */
   .case-study-card {
-    background: var(--aw-color-bg-page);
-    border: 1px solid var(--aw-color-border);
-    border-radius: 16px;
-    overflow: hidden;
+    margin-bottom: 24px;
     transition: all 0.3s ease;
-    opacity: 0;
-    animation: fadeInUp 0.6s ease forwards;
-  }
-
-  .case-study-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-    border-color: var(--aw-color-primary);
   }
 
   .card-link {
@@ -481,14 +425,14 @@ const caseStudyData = [
 
   .card-image-container {
     position: relative;
-    aspect-ratio: 16/10;
     overflow: hidden;
+    border-radius: 12px;
   }
 
   .card-image {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
+    display: block;
     transition: transform 0.3s ease;
   }
 
@@ -498,11 +442,11 @@ const caseStudyData = [
 
   .card-overlay {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
+    top: 16px;
+    right: 16px;
     width: 40px;
     height: 40px;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(0, 0, 0, 0.7);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -518,124 +462,78 @@ const caseStudyData = [
   .external-link-icon {
     width: 20px;
     height: 20px;
-    color: var(--aw-color-text-default);
+    color: #fff;
   }
 
   .card-content {
-    padding: 1.5rem;
+    padding: 16px 0;
   }
 
   .card-title {
-    font-size: 1.25rem;
+    color: #f8fafc;
+    font-family: Inter;
+    font-size: 24px;
     font-weight: 700;
-    color: var(--aw-color-text-heading);
-    margin-bottom: 0.75rem;
     line-height: 1.4;
+    margin-bottom: 8px;
   }
 
   .card-description {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: var(--aw-color-text-muted);
-    margin-bottom: 1rem;
+    color: #b8c1cc;
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.5;
+    margin-bottom: 12px;
   }
 
   .card-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 8px;
   }
 
   .tag {
-    padding: 0.25rem 0.75rem;
-    background: var(--aw-color-primary);
-    color: white;
-    font-size: 0.75rem;
-    font-weight: 500;
-    border-radius: 15px;
+    padding: 4px 12px;
+    background: rgba(178, 255, 80, 0.1);
+    border: 1px solid #b2ff50;
+    color: #b2ff50;
+    font-family: Inter;
+    font-size: 12px;
+    font-weight: 400;
+    border-radius: 16px;
   }
 
-  /* Empty State */
-  .empty-state {
-    text-align: center;
-    padding: 4rem 2rem;
-    color: var(--aw-color-text-muted);
-  }
-
-  .empty-icon {
-    width: 64px;
-    height: 64px;
-    margin: 0 auto 1rem;
-    opacity: 0.5;
-  }
-
-  .empty-state h3 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: var(--aw-color-text-default);
-  }
-
-  .hidden {
-    display: none;
-  }
-
-  /* Animations */
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .case-studies-container {
+      padding: 24px 16px 120px 16px;
     }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
 
-  /* Responsive Design */
-  @media (max-width: 1024px) {
+    .case-studies-header-creativity,
+    .case-studies-header-purpose {
+      font-size: 48px;
+    }
+
+    .case-studies-header-purpose {
+      margin-top: -100px;
+      margin-right: -40px;
+    }
+
     .case-studies-design-process {
       flex-direction: column;
+      gap: 20px;
       text-align: center;
     }
-    
-    .case-studies-process-details {
-      text-align: center;
-    }
-  }
 
-  @media (max-width: 768px) {
     .case-studies-footer {
       flex-direction: column;
       align-items: flex-start;
+      gap: 16px;
     }
-    
-    .cs-card-container {
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-    }
-    
-    .header-content {
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-    
-    .circle-decoration {
-      width: 80px;
-      height: 80px;
-    }
-  }
 
-  /* Dark mode adjustments */
-  :global(.dark) .case-studies-open-document-button {
-    box-shadow: 0 4px 14px rgba(139, 92, 246, 0.3);
-  }
-
-  :global(.dark) .case-studies-open-document-button:hover {
-    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
-  }
-
-  :global(.dark) .case-study-card:hover {
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    .cs-chip-container-holder {
+      flex-wrap: wrap;
+    }
   }
 </style>
