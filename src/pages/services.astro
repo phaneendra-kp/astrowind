@@ -1,224 +1,641 @@
 ---
 import CallToAction from '~/components/widgets/CallToAction.astro';
-import Content from '~/components/widgets/Content.astro';
-import Features2 from '~/components/widgets/Features2.astro';
-import Hero from '~/components/widgets/Hero.astro';
-import Testimonials from '~/components/widgets/Testimonials.astro';
 import Layout from '~/layouts/PageLayout.astro';
+import { Icon } from 'astro-icon/components';
 
 const metadata = {
-  title: 'Services',
+  title: 'Case Studies - My Design Portfolio',
 };
+
+// Case study data - you can move this to a separate constants file
+const csChipData = [
+  { label: 'Web App', number: 3 },
+  { label: 'Mobile App', number: 2 },
+  { label: 'UI/UX Design', number: 4 },
+  { label: 'Product Design', number: 2 }
+];
+
+// Sample case study data - replace with your actual data
+const caseStudyData = [
+  {
+    id: 1,
+    title: 'Mercedes-Benz Digital Experience',
+    description: 'Redesigning the luxury car buying experience through digital innovation',
+    category: 'Web App',
+    imgSrc: '/assets/dataimages/benz.png',
+    pathName: '/case-study/mercedes-benz',
+    tags: ['UX Research', 'Interface Design', 'Prototyping']
+  },
+  {
+    id: 2,
+    title: 'Paysafe Payment Platform',
+    description: 'Streamlining digital payments with intuitive design',
+    category: 'Web App',
+    imgSrc: '/assets/dataimages/Paysafe.png',
+    pathName: '/case-study/paysafe',
+    tags: ['Fintech', 'Mobile Design', 'User Journey']
+  },
+  {
+    id: 3,
+    title: 'NoBroker Property Platform',
+    description: 'Revolutionizing real estate discovery and transactions',
+    category: 'Mobile App',
+    imgSrc: '/assets/dataimages/NoBroker.png',
+    pathName: '/case-study/nobroker',
+    tags: ['Mobile App', 'Property Tech', 'User Research']
+  },
+  {
+    id: 4,
+    title: 'Cisco Enterprise Solutions',
+    description: 'Enterprise networking solutions with enhanced usability',
+    category: 'Web App',
+    imgSrc: '/assets/dataimages/Cisco.png',
+    pathName: '/case-study/cisco',
+    tags: ['Enterprise UX', 'Dashboard Design', 'B2B']
+  }
+];
 ---
 
 <Layout metadata={metadata}>
-  <!-- Hero Widget ******************* -->
+  <!-- Case Studies Hero Section -->
+  <section class="case-studies-hero px-4 py-16 sm:px-6 lg:px-8 lg:py-20 mx-auto max-w-7xl">
+    <div class='case-studies-header'>
+      <div class="header-content">
+        <span class='case-studies-header-creativity'>creativity</span>
+        <div class='case-studies-header-divider'>
+          <span class='with'>WITH</span>
+          <div class="circle-decoration"></div>
+        </div>
+        <div class='case-studies-header-purpose'>
+          <span>purpose</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class='case-studies-intro'>
+      <span class='case-studies-intro-text'>
+        Looking for my portfolio? You'll find here some shots of my most
+        recent projects, an exhaustive list of all the projects I contributed
+        to, as well as a few words about my role and my inspirations.
+      </span>
+    </div>
+    
+    <div class='case-studies-design-process'>
+      <div class='case-studies-process-details'>
+        <span class='case-studies-process-title'>My Design Process</span>
+        <span class='case-studies-process-description'>
+          My design process varies slightly depending on the nature of the
+          project at hand. Am I redesigning an existing product, creating a
+          new product from scratch, adding new features to an already existing
+          product.
+        </span>
+      </div>
+      <a href='/design-process' class="design-process-link">
+        <button class='case-studies-open-document-button'>
+          <span>Open Document</span>
+          <Icon name="tabler:arrow-right" class="arrow-icon" />
+        </button>
+      </a>
+    </div>
+  </section>
 
-  <Hero
-    tagline="Services"
-    title="Elevate your projects with our stunning templates"
-    subtitle="Explore our meticulously crafted templates tailored to various industries and purposes. From captivating presentations to functional website designs, we offer the tools you need to succeed."
-    actions={[{ variant: 'primary', target: '_blank', text: 'Start exploring', href: '/' }]}
-    image={{
-      src: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
-      alt: 'AstroWind Hero Image',
-    }}
-  />
+  <!-- Filter Section -->
+  <section class="filter-section px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl">
+    <div class='case-studies-footer'>
+      <span class='case-studies-footer-text'>// Case Studies</span>
+      <div class='cs-chip-container-holder' id="chip-container">
+        {csChipData.map((eachChip, idx) => (
+          <button 
+            class="cs-chip"
+            data-filter={eachChip.label}
+            data-count={eachChip.number}
+            key={idx}
+          >
+            <span class="chip-label">{eachChip.label}</span>
+            <span class="chip-count">({eachChip.number})</span>
+          </button>
+        ))}
+        <button class="cs-chip active" data-filter="all">
+          <span class="chip-label">All Projects</span>
+        </button>
+      </div>
+    </div>
+  </section>
 
-  <!-- Features2 Widget ************** -->
+  <!-- Case Studies Grid -->
+  <section class="case-studies-grid px-4 pb-16 sm:px-6 lg:px-8 lg:pb-20 mx-auto max-w-7xl">
+    <div class='cs-card-container' id="case-studies-container">
+      {caseStudyData.map((caseStudy) => (
+        <article class="case-study-card" data-category={caseStudy.category}>
+          <a href={caseStudy.pathName} class="card-link">
+            <div class="card-image-container">
+              <img 
+                src={caseStudy.imgSrc} 
+                alt={caseStudy.title}
+                class="card-image"
+                loading="lazy"
+              />
+              <div class="card-overlay">
+                <Icon name="tabler:external-link" class="external-link-icon" />
+              </div>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">{caseStudy.title}</h3>
+              <p class="card-description">{caseStudy.description}</p>
+              <div class="card-tags">
+                {caseStudy.tags.map((tag) => (
+                  <span class="tag">{tag}</span>
+                ))}
+              </div>
+            </div>
+          </a>
+        </article>
+      ))}
+    </div>
+    
+    <!-- Empty State -->
+    <div id="empty-state" class="empty-state hidden">
+      <Icon name="tabler:folder-open" class="empty-icon" />
+      <h3>No projects found</h3>
+      <p>Try selecting a different filter or view all projects.</p>
+    </div>
+  </section>
 
-  <Features2
-    title="Explore our diverse templates"
-    subtitle="Discover our selection below to streamline and elevate your projects."
-    columns={3}
-    items={[
-      {
-        title: 'Educational',
-        description:
-          'By harmonizing instructional design and visual appeal, templates streamline content creation for varied materials, expediting development and cultivating engaging educational spaces.',
-        icon: 'tabler:school',
-      },
-      {
-        title: 'Interior Design',
-        description:
-          'Crafting functional, visually appealing spaces for residential and commercial use. Templates emphasize layout, colors, and furniture setups, offering a versatile toolkit for your design vision.',
-        icon: 'tabler:home-star',
-      },
-      {
-        title: 'Photography',
-        description: `Empowering photographers, our templates facilitate captivating storytelling. With a keen focus on layout, galleries, and typography, they cater to both professionals and enthusiasts.`,
-        icon: 'tabler:photo',
-      },
-      {
-        title: 'E-commerce',
-        description:
-          'Developing engaging online stores, our E-commerce templates ensure a dynamic presence to effectively showcase products. Ideal for startups or revamps.',
-        icon: 'tabler:shopping-cart',
-      },
-      {
-        title: 'Blog',
-        description:
-          'With attention to typography, these templates empower effective content presentation for writers at any stage, ensuring visually engaging and user-friendly blogs.',
-        icon: 'tabler:article',
-      },
-      {
-        title: 'Business',
-        description:
-          'Providing polished options for effective visual communication, these templates empower both startups and established companies for a professional brand presence.',
-        icon: 'tabler:building-store',
-      },
-      {
-        title: 'Branding',
-        description:
-          'Offering pre-designed elements for a consistent brand identity, including logos and marketing materials. Ideal for new ventures or revamps.',
-        icon: 'tabler:arrow-big-up-lines',
-      },
-      {
-        title: 'Medical',
-        description: `From presentations to patient forms, these tools enhance communication effectiveness for healthcare professionals. Ideal for medical practices and research pursuits.`,
-        icon: 'tabler:vaccine',
-      },
-      {
-        title: 'Fashion Design',
-        description:
-          'With attention to detail, customization, and contemporary design, they empower designers to showcase ideas cohesively. Ideal for all levels of designers.',
-        icon: 'tabler:tie',
-      },
-    ]}
-  />
-
-  <!-- Content Widget **************** -->
-
-  <Content
-    isReversed
-    items={[
-      {
-        title: 'High-Quality Designs',
-        description:
-          'Our templates feature top-tier designs that ensure a professional and polished appearance for your projects.',
-        icon: 'tabler:wand',
-      },
-      {
-        title: 'Customization Tools',
-        description:
-          'Tailor each template to your unique needs with user-friendly customization tools that let you personalize colors, fonts, and content.',
-        icon: 'tabler:settings',
-      },
-      {
-        title: 'Pre-Designed Elements',
-        description:
-          'Save time and effort with our ready-to-use elements, including graphics, icons, and layouts that enhance the visual appeal of your creations.',
-        icon: 'tabler:presentation',
-      },
-      {
-        title: 'Preview and Mockup Views',
-        description:
-          'Visualize the final outcome before making any changes using our preview and mockup views, ensuring your projects meet your expectations.',
-        icon: 'tabler:carousel-horizontal',
-      },
-    ]}
-    image={{
-      src: 'https://images.unsplash.com/photo-1525909002-1b05e0c869d8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80',
-      alt: 'Features Image',
-    }}
-  >
-    <Fragment slot="content">
-      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">Main Features</h3>
-    </Fragment>
-  </Content>
-
-  <!-- Content Widget **************** -->
-
-  <Content
-    isAfterContent
-    items={[
-      {
-        title: 'Time Savings',
-        description:
-          'Streamline your workflow, enabling you to create stunning materials efficiently and allocate more time to your core tasks.',
-        icon: 'tabler:clock',
-      },
-      {
-        title: 'Professional Appearance',
-        description:
-          'Elevate your projects with the polished and sophisticated look that our templates provide, making a lasting impression on your audience.',
-        icon: 'tabler:school',
-      },
-      {
-        title: 'Cost-Efficiency',
-        description:
-          'Benefit from cost savings by avoiding the need for custom design work, as our templates offer professional-grade designs at a fraction of the cost.',
-        icon: 'tabler:coin',
-      },
-      {
-        title: 'Instant Download',
-        description:
-          'Enjoy immediate access to your chosen templates upon purchase, enabling you to begin working on your projects without delay.',
-        icon: 'tabler:file-download',
-      },
-    ]}
-    image={{
-      src: 'https://images.unsplash.com/photo-1552664688-cf412ec27db2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80',
-      alt: 'Benefits Image',
-    }}
-  >
-    <Fragment slot="content">
-      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">Benefits</h3>
-    </Fragment>
-  </Content>
-
-  <!-- Testimonials Widget *********** -->
-
-  <Testimonials
-    title="Words from real customers"
-    testimonials={[
-      {
-        testimonial: `The designs are not only visually appealing but also highly professional. The templates have saved me a significant amount of time while helping me make a lasting impression on my clients.`,
-        name: 'Emily Kennedy',
-        job: 'Front-end developer',
-        image: {
-          src: 'https://images.unsplash.com/photo-1618835962148-cf177563c6c0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=930&q=80',
-          alt: 'Emily Kennedy Image',
-        },
-      },
-      {
-        testimonial: `It beautifully showcases my work, with its clean and elegant design that lets my photographs shine. Customization was a breeze, even for a non-tech person like me. The result is a professional and immersive portfolio that's garnered numerous compliments.`,
-        name: 'Sarah Hansen',
-        job: 'Photographer',
-        image: {
-          src: 'https://images.unsplash.com/photo-1561406636-b80293969660?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80',
-          alt: 'Sarah Hansen Image',
-        },
-      },
-      {
-        testimonial: `I discovered these templates and I'm impressed by their variety and quality. They've helped me establish a consistent brand image across my marketing and social platforms, elevating my business's overall appearance.`,
-        name: 'Mark Wilkinson',
-        job: 'Small business owner',
-        image: {
-          src: 'https://images.unsplash.com/photo-1545167622-3a6ac756afa4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=824&q=80',
-          alt: 'Mark Wilkinson Image',
-        },
-      },
-    ]}
-    callToAction={{
-      target: '_blank',
-      text: 'More testimonials...',
-      href: 'https://github.com/onwidget/astrowind',
-      icon: 'tabler:chevron-right',
-    }}
-  />
-
-  <!-- CallToAction Widget *********** -->
-
+  <!-- Call to Action -->
   <CallToAction
     actions={[
       {
         variant: 'primary',
-        text: 'Start exploring',
-        href: '/',
+        text: 'View All Projects',
+        href: '/projects',
+      },
+      {
+        variant: 'secondary',
+        text: 'Contact Me',
+        href: '/contact',
       },
     ]}
-    title="Dive into our template collection"
-    subtitle="Whether you're in business, design, or education, our templates are here to elevate your projects."
+    title="Interested in working together?"
+    subtitle="Let's create something amazing together. I'm always open to discussing new projects and opportunities."
   />
 </Layout>
+
+<script>
+  function initializeCaseStudiesFilter() {
+    const chips = document.querySelectorAll('.cs-chip');
+    const caseStudyCards = document.querySelectorAll('.case-study-card');
+    const container = document.getElementById('case-studies-container');
+    const emptyState = document.getElementById('empty-state');
+    
+    if (!chips.length || !caseStudyCards.length) return;
+
+    function filterCaseStudies(filter: string) {
+      let visibleCount = 0;
+      
+      caseStudyCards.forEach((card) => {
+        const cardElement = card as HTMLElement;
+        const category = cardElement.dataset.category;
+        
+        if (filter === 'all' || category === filter) {
+          cardElement.style.display = 'block';
+          cardElement.style.animation = 'fadeInUp 0.6s ease forwards';
+          visibleCount++;
+        } else {
+          cardElement.style.display = 'none';
+        }
+      });
+      
+      // Show/hide empty state
+      if (emptyState && container) {
+        if (visibleCount === 0) {
+          emptyState.classList.remove('hidden');
+          container.classList.add('hidden');
+        } else {
+          emptyState.classList.add('hidden');
+          container.classList.remove('hidden');
+        }
+      }
+    }
+
+    function setActiveChip(activeChip: Element) {
+      chips.forEach(chip => chip.classList.remove('active'));
+      activeChip.classList.add('active');
+    }
+
+    chips.forEach((chip) => {
+      chip.addEventListener('click', (e) => {
+        const target = e.currentTarget as HTMLElement;
+        const filter = target.dataset.filter;
+        
+        if (filter) {
+          setActiveChip(target);
+          filterCaseStudies(filter);
+        }
+      });
+    });
+
+    // Set initial state - show all
+    const allChip = document.querySelector('[data-filter="all"]');
+    if (allChip) {
+      setActiveChip(allChip);
+      filterCaseStudies('all');
+    }
+  }
+
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', initializeCaseStudiesFilter);
+  
+  // Handle Astro page navigation
+  document.addEventListener('astro:page-load', initializeCaseStudiesFilter);
+</script>
+
+<style>
+  /* Hero Section Styles */
+  .case-studies-hero {
+    text-align: center;
+    position: relative;
+  }
+
+  .case-studies-header {
+    margin-bottom: 3rem;
+  }
+
+  .header-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .case-studies-header-creativity {
+    font-size: clamp(2.5rem, 8vw, 6rem);
+    font-weight: 300;
+    color: var(--aw-color-text-default);
+    letter-spacing: -0.02em;
+  }
+
+  .case-studies-header-divider {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .with {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--aw-color-text-muted);
+    margin: 0 1rem;
+  }
+
+  .circle-decoration {
+    width: 120px;
+    height: 120px;
+    border: 2px solid var(--aw-color-primary);
+    border-radius: 50%;
+    opacity: 0.3;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .case-studies-header-purpose span {
+    font-size: clamp(2.5rem, 8vw, 6rem);
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--aw-color-primary) 0%, #8b5cf6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .case-studies-intro {
+    max-width: 800px;
+    margin: 0 auto 4rem;
+  }
+
+  .case-studies-intro-text {
+    font-size: 1.25rem;
+    line-height: 1.7;
+    color: var(--aw-color-text-muted);
+  }
+
+  .case-studies-design-process {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: var(--aw-color-bg-page);
+    border: 1px solid var(--aw-color-border);
+    border-radius: 16px;
+    gap: 2rem;
+  }
+
+  .case-studies-process-details {
+    flex: 1;
+    text-align: left;
+  }
+
+  .case-studies-process-title {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--aw-color-text-heading);
+    margin-bottom: 0.5rem;
+  }
+
+  .case-studies-process-description {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--aw-color-text-muted);
+  }
+
+  .design-process-link {
+    text-decoration: none;
+  }
+
+  .case-studies-open-document-button {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1.5rem;
+    background: linear-gradient(135deg, var(--aw-color-primary) 0%, #8b5cf6 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+  }
+
+  .case-studies-open-document-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+  }
+
+  .arrow-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Filter Section */
+  .filter-section {
+    border-bottom: 1px solid var(--aw-color-border);
+    padding-bottom: 2rem;
+  }
+
+  .case-studies-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+
+  .case-studies-footer-text {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--aw-color-text-muted);
+    font-family: 'Fira Code', monospace;
+  }
+
+  .cs-chip-container-holder {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .cs-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--aw-color-bg-page);
+    border: 2px solid var(--aw-color-border);
+    border-radius: 25px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
+
+  .cs-chip:hover {
+    border-color: var(--aw-color-primary);
+    transform: translateY(-1px);
+  }
+
+  .cs-chip.active {
+    background: var(--aw-color-primary);
+    border-color: var(--aw-color-primary);
+    color: white;
+  }
+
+  .chip-label {
+    color: inherit;
+  }
+
+  .chip-count {
+    font-size: 0.75rem;
+    opacity: 0.7;
+  }
+
+  /* Case Studies Grid */
+  .case-studies-grid {
+    padding-top: 3rem;
+  }
+
+  .cs-card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .case-study-card {
+    background: var(--aw-color-bg-page);
+    border: 1px solid var(--aw-color-border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    opacity: 0;
+    animation: fadeInUp 0.6s ease forwards;
+  }
+
+  .case-study-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border-color: var(--aw-color-primary);
+  }
+
+  .card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .card-image-container {
+    position: relative;
+    aspect-ratio: 16/10;
+    overflow: hidden;
+  }
+
+  .card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .case-study-card:hover .card-image {
+    transform: scale(1.05);
+  }
+
+  .card-overlay {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .case-study-card:hover .card-overlay {
+    opacity: 1;
+  }
+
+  .external-link-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--aw-color-text-default);
+  }
+
+  .card-content {
+    padding: 1.5rem;
+  }
+
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--aw-color-text-heading);
+    margin-bottom: 0.75rem;
+    line-height: 1.4;
+  }
+
+  .card-description {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--aw-color-text-muted);
+    margin-bottom: 1rem;
+  }
+
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tag {
+    padding: 0.25rem 0.75rem;
+    background: var(--aw-color-primary);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: 15px;
+  }
+
+  /* Empty State */
+  .empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--aw-color-text-muted);
+  }
+
+  .empty-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 1rem;
+    opacity: 0.5;
+  }
+
+  .empty-state h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--aw-color-text-default);
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  /* Animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Responsive Design */
+  @media (max-width: 1024px) {
+    .case-studies-design-process {
+      flex-direction: column;
+      text-align: center;
+    }
+    
+    .case-studies-process-details {
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .case-studies-footer {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .cs-card-container {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    
+    .header-content {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .circle-decoration {
+      width: 80px;
+      height: 80px;
+    }
+  }
+
+  /* Dark mode adjustments */
+  :global(.dark) .case-studies-open-document-button {
+    box-shadow: 0 4px 14px rgba(139, 92, 246, 0.3);
+  }
+
+  :global(.dark) .case-studies-open-document-button:hover {
+    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+  }
+
+  :global(.dark) .case-study-card:hover {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+</style>
