@@ -1,79 +1,401 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import HeroText from '~/components/widgets/HeroText.astro';
-import ContactUs from '~/components/widgets/Contact.astro';
 import Features2 from '~/components/widgets/Features2.astro';
+import { Icon } from 'astro-icon/components';
 
 const metadata = {
   title: 'Contact',
 };
+
+const userEmail = 'praveenmanchi.work@proton.me';
+const resumeUrl = 'https://drive.google.com/uc?export=download&id=1-Rg2c36FfnNILcTeQp-PmiQp4C-4LhvK';
+
+const socialIcons = [
+  {
+    name: 'tabler:brand-github',
+    alt: 'GitHub',
+    link: 'https://github.com/praveenmanchi',
+  },
+  {
+    name: 'tabler:brand-figma',
+    alt: 'Figma',
+    link: 'https://www.figma.com/@praveenmanchi',
+  },
+  {
+    name: 'tabler:notes',
+    alt: 'Notion',
+    link: 'https://www.notion.so/praveenmanchi',
+  },
+  {
+    name: 'tabler:brand-linkedin',
+    alt: 'LinkedIn',
+    link: 'https://www.linkedin.com/in/praveenmanchi',
+  },
+];
 ---
 
 <Layout metadata={metadata}>
   <!-- HeroText Widget ******************* -->
-
   <HeroText tagline="Contact" title="Let's Connect!" />
+  
+  <!-- Custom Contact Section -->
+  <section class="px-4 py-16 sm:px-6 lg:px-8 lg:py-20 mx-auto max-w-7xl">
+    <div class='contact-container'>
+      <div class='contact-message'>
+        <span class='contact-greeting'>
+          Wait, did someone just whisper "UX/UI opportunity"? You have my full attention!
+        </span>
+        <span class='contact-description'>
+          I'm always game for chatting about crafting delightful user experiences, solving 
+          design puzzles, or exchanging stories with fellow creators. The best way to reach 
+          me is via LinkedIn—it's like the modern-day business card, right? But if you're feeling 
+          old-school, you can always shoot me an email (no smoke signals, please).
+        </span>
 
-  <ContactUs
-    id="form"
-    title="Drop us a message today!"
-    subtitle="For quicker answers, explore our FAQs section. You may find the solution you're looking  for right there! If not, our support team is delighted to help you."
-    inputs={[
-      {
-        type: 'text',
-        name: 'name',
-        label: 'Name',
-      },
-      {
-        type: 'email',
-        name: 'email',
-        label: 'Email',
-      },
-    ]}
-    textarea={{
-      label: 'Message',
-    }}
-    disclaimer={{
-      label:
-        'By submitting this contact form, you acknowledge and agree to the collection of your personal information.',
-    }}
-    description="Our support team typically responds within 24 business hours."
-  />
+        <div class='contact-buttons-container'>
+          <!-- Email Copy Button -->
+          <button 
+            id="copy-email-btn"
+            class="customised-button"
+            data-email={userEmail}
+          >
+            <Icon name="tabler:mail" class="button-icon" />
+            Copy my e-mail
+          </button>
+
+          <!-- Resume Download Button -->
+          <button 
+            id="download-resume-btn"
+            class="customised-button resume-button"
+            data-resume-url={resumeUrl}
+          >
+            <Icon name="tabler:download" class="button-icon" />
+            Download Resume
+          </button>
+
+          <nav class='social-icons-container'>
+            {socialIcons.map((icon) => (
+              <a
+                href={icon.link}
+                target='_blank'
+                rel='noopener noreferrer'
+                class='social-link'
+                title={icon.alt}
+              >
+                <Icon name={icon.name} class="social-icon" />
+                <span class="sr-only">{icon.alt}</span>
+              </a>
+            ))}
+          </nav>
+        </div>
+      </div>
+
+      <div class='contact-pdf-thumbnail'>
+        <div class="pdf-container">
+          <iframe
+            src='https://drive.google.com/file/d/1-Rg2c36FfnNILcTeQp-PmiQp4C-4LhvK/preview'
+            width='100%'
+            height='800px'
+            style='border: none; border-radius: 12px;'
+            allowfullscreen
+            title="Praveen Manchi Resume Preview"
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- Features2 Widget ************** -->
-
   <Features2
     title="We are here to help!"
     items={[
       {
-        title: 'General support',
-        description: `Chat with us for inquiries related to account management, website navigation, payment issues, accessing purchased templates or general questions about the website's functionality.`,
+        title: 'UX/UI Design',
+        description: `Let's discuss creating intuitive and delightful user experiences. From wireframes to high-fidelity prototypes, I'm here to bring your ideas to life.`,
+        icon: 'tabler:palette',
       },
       {
-        title: 'Contact sales',
+        title: 'Design Consultation',
         description:
-          'Chat with us for questions about purchases, customization options, licensing for commercial use, inquiries about specific template, etc.',
+          'Need advice on design systems, user research, or design strategy? I\'m available for consultation and collaboration.',
+        icon: 'tabler:messages',
       },
       {
-        title: 'Technical support',
+        title: 'Portfolio Review',
         description:
-          'Chat with us when facing issues like template installation, problems editing difficulties, compatibility issues with software or download errors, or other technical challenges related to using the templates.',
+          'Looking for feedback on your design work? I\'d be happy to provide constructive feedback to help you grow as a designer.',
+        icon: 'tabler:eye-check',
       },
       {
-        title: 'Phone',
-        description: '+1 (234) 567-890',
-        icon: 'tabler:headset',
+        title: 'LinkedIn',
+        description: 'Connect with me professionally',
+        icon: 'tabler:brand-linkedin',
+        callToAction: {
+          target: '_blank',
+          text: 'Connect →',
+          href: 'https://www.linkedin.com/in/praveenmanchi',
+        },
       },
       {
         title: 'Email',
-        description: 'contact@support.com',
+        description: 'praveenmanchi.work@proton.me',
         icon: 'tabler:mail',
       },
       {
-        title: 'Location',
-        description: '1234 Lorem Ipsum St, 12345, Miami, EEUU',
-        icon: 'tabler:map-pin',
+        title: 'Response Time',
+        description: 'I typically respond within 24-48 hours',
+        icon: 'tabler:clock',
       },
     ]}
   />
 </Layout>
+
+<script>
+  // Handle email copying
+  function initializeContactFeatures() {
+    const copyEmailBtn = document.getElementById('copy-email-btn');
+    if (copyEmailBtn) {
+      copyEmailBtn.addEventListener('click', async () => {
+        const email = copyEmailBtn.dataset.email;
+        if (email) {
+          try {
+            await navigator.clipboard.writeText(email);
+            // Show success feedback
+            const originalHTML = copyEmailBtn.innerHTML;
+            copyEmailBtn.innerHTML = `
+              <svg class="button-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20,6 9,17 4,12"></polyline>
+              </svg>
+              Email copied!
+            `;
+            copyEmailBtn.style.backgroundColor = '#10b981';
+            
+            setTimeout(() => {
+              copyEmailBtn.innerHTML = originalHTML;
+              copyEmailBtn.style.backgroundColor = '';
+            }, 2000);
+          } catch (err) {
+            console.error('Failed to copy email: ', err);
+            alert('Failed to copy email. Please try again.');
+          }
+        }
+      });
+    }
+
+    // Handle resume download
+    const downloadResumeBtn = document.getElementById('download-resume-btn');
+    if (downloadResumeBtn) {
+      downloadResumeBtn.addEventListener('click', () => {
+        const resumeUrl = downloadResumeBtn.dataset.resumeUrl;
+        if (resumeUrl) {
+          const link = document.createElement('a');
+          link.href = resumeUrl;
+          link.download = 'Praveen_Manchi_Resume.pdf';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+      });
+    }
+  }
+
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', initializeContactFeatures);
+  
+  // Handle Astro page navigation
+  document.addEventListener('astro:page-load', initializeContactFeatures);
+</script>
+
+<style>
+  .contact-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+    margin-bottom: 4rem;
+  }
+
+  .contact-message {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .contact-greeting {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--aw-color-text-heading, #1f2937);
+    line-height: 1.3;
+    margin-bottom: 1rem;
+  }
+
+  .contact-description {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: var(--aw-color-text-muted, #6b7280);
+    margin-bottom: 1rem;
+  }
+
+  .contact-buttons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .customised-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    max-width: fit-content;
+    box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.3);
+  }
+
+  .customised-button:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+  }
+
+  .resume-button {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.3);
+  }
+
+  .resume-button:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+  }
+
+  .button-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .social-icons-container {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    background-color: var(--aw-color-bg-page, #ffffff);
+    border: 2px solid var(--aw-color-border, #e5e7eb);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
+
+  .social-link:hover {
+    border-color: var(--aw-color-primary, #3b82f6);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  .social-icon {
+    width: 24px;
+    height: 24px;
+    color: var(--aw-color-text-default, #374151);
+  }
+
+  .social-link:hover .social-icon {
+    color: var(--aw-color-primary, #3b82f6);
+  }
+
+  .contact-pdf-thumbnail {
+    position: relative;
+  }
+
+  .pdf-container {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--aw-color-border, #e5e7eb);
+  }
+
+  .pdf-container iframe {
+    display: block;
+    width: 100%;
+    height: 800px;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* Dark mode styles */
+  :global(.dark) .contact-greeting {
+    color: var(--aw-color-text-heading, #f9fafb);
+  }
+  
+  :global(.dark) .contact-description {
+    color: var(--aw-color-text-muted, #d1d5db);
+  }
+  
+  :global(.dark) .social-link {
+    background-color: var(--aw-color-bg-page, #1f2937);
+    border-color: var(--aw-color-border, #374151);
+  }
+  
+  :global(.dark) .social-icon {
+    color: var(--aw-color-text-default, #d1d5db);
+  }
+
+  :global(.dark) .pdf-container {
+    border-color: var(--aw-color-border, #374151);
+  }
+
+  /* Responsive design */
+  @media (max-width: 1024px) {
+    .contact-container {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+    
+    .pdf-container iframe {
+      height: 600px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .contact-greeting {
+      font-size: 1.5rem;
+    }
+    
+    .contact-description {
+      font-size: 1rem;
+    }
+    
+    .social-icons-container {
+      justify-content: center;
+    }
+    
+    .pdf-container iframe {
+      height: 500px;
+    }
+  }
+</style>
